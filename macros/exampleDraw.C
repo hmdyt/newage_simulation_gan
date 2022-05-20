@@ -38,7 +38,19 @@ void exampleDraw( const int& eventID = 1)
     histXZ.SetZTitle( "Counts" );
     histXZ.Draw("colz");
 
-    cvs.SaveAs( "hitmap.pdf" );
+    cvs.SaveAs( project_root + Form("/img/exampleDraw/hitmap_%d.png", eventID) );
     
     return;
+}
+
+void drawAllEvents() {
+    TString project_root = std::getenv("PROJECT_ROOT");
+    TString input_file_path = project_root + "/rootfile/cvvar.root";
+    TFile file( input_file_path );
+    TTree* pTree = dynamic_cast< TTree* >( file.Get( "cvvar_tree" ) );
+    if( pTree == nullptr ) return;
+    long long int n_entries = pTree->GetEntries();
+    for (int i_event = 0; i_event < n_entries; i_event++){
+        exampleDraw(i_event);
+    }
 }

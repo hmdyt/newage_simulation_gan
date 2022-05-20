@@ -133,3 +133,6 @@ rootfile/*
 
 # pytorch data
 data/*
+
+# image
+img/
